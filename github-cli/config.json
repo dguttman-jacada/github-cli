@@ -1,0 +1,28 @@
+{
+  "github": {
+    "user": "?????",
+    "token": "?????",
+    "repos": [
+      "owner/repo-name"
+    ],
+    "projects": [
+      "owner/project name"
+    ]
+  },
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Warning",
+      "Override": {
+        "github_cli": "Debug"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "outputTemplate": "{Timestamp:s} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}"
+        }
+      }
+    ]
+  }
+}
