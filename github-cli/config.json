@@ -7,8 +7,25 @@
     ],
     "projects": [
       "owner/project name"
-    ]
+    ],
+    "columns": {
+      "ignore": [
+        "Done"
+      ],
+      "select": [
+        "*"
+      ]
+    },
+    "defaultMilestone": "unplanned"
   },
+  "outputs": [
+    {
+      "workload": "GetProjectCards",
+      "file": "get-project-cards.csv",
+      "overwrite": true,
+      "model": "github_cli.Model.ProjectCardRecord"
+    }
+  ],
   "Serilog": {
     "MinimumLevel": {
       "Default": "Warning",

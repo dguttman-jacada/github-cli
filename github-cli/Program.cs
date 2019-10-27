@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using github_cli.Workloads;
+using github_cli.Workloads.Communication;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Extensions.Logging;
@@ -17,13 +17,9 @@ namespace github_cli
     {
         private static async Task Main(string[] args)
         {
+            var cts = new CancellationTokenSource();
             var builder = Host.CreateDefaultBuilder(args)
-                .ConfigureHostConfiguration(config => ConfigRoot.Build(config, args))
-//                .ConfigureLogging(logging =>
-//                {
-//                    logging.ClearProviders();
-//                    logging.AddConsole();
-//                })
+                .UseConfigRoot()
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.Configure<ConfigRoot>(hostContext.Configuration);
@@ -38,13 +34,16 @@ namespace github_cli
                         logging.AddProvider(new SerilogLoggerProvider(logger, true));
                     });
 
+                    services.UseWorkloads();
+                    services.UseCommandLineApp();
                     services.AddHostedService<App>();
-                    services.AddHttpClient();
+                    services.AddSingleton<CsvFactory>();
+                    services.AddSingleton(cts);
                 });
 
             try
             {
-                await builder.RunConsoleAsync();
+                await builder.RunConsoleAsync(cts.Token);
             }
             catch (Exception ex)
             {
