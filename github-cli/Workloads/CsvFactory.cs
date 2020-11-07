@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace github_cli.Workloads
          
             _logger.LogInformation($"{nameof(Write)}: Opening writing stream '{config.File}'");
             await using var writer = new StreamWriter(config.File!, false);
-            using var csv = new CsvWriter(writer);
+            await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
             var outputType = config.ModelType;
             _logger.LogInformation($"{nameof(Write)}: Converting '{typeof(T).Name}' --> '{outputType.Name}'");

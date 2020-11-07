@@ -18,6 +18,7 @@ namespace github_cli.Workloads
         public static IServiceCollection UseWorkloads(this IServiceCollection services, Assembly assembly)
         {
             services.AddSingleton<ClientFactory>();
+            services.AddSingleton<GraphClientFactory>();
             foreach (var type in assembly.GetTypes()
                 .Where(t => !t.IsAbstract && typeof(IWorkload).IsAssignableFrom(t)))
             {

@@ -14,7 +14,8 @@
       ],
       "select": [
         "*"
-      ]
+      ],
+      "default": "Pending" 
     },
     "defaultMilestone": "unplanned"
   },

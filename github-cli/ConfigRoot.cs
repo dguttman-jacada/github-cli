@@ -41,6 +41,7 @@ namespace github_cli
     {
         public string[]? Ignore { get; set; }
         public string[]? Select { get; set; }
+        public string? Default { get; set; }
 
         internal bool Enabled(ProjectColumn column)
         {

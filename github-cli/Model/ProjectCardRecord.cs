@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
@@ -25,7 +26,7 @@ namespace github_cli.Model
         {
             if (File.Exists(config.File) && config.Overwrite != true) { throw new InvalidOperationException("File already exists");}
             using var writer = new StreamWriter(config.File!, false);
-            using var csv = new CsvWriter(writer);
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
             csv.WriteRecords(cards.Select(c => new ProjectCardRecord(c)));
         }
     }
